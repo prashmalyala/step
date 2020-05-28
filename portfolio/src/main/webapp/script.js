@@ -26,3 +26,13 @@ function addRandomFact() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/*
+ * Fetch the Hello greeting from the server and add it to page.
+*/
+async function getHelloResponse() {
+  const response = await fetch('/data');
+  const hello = await response.text();
+  console.log(hello)
+  document.getElementById('hello-container').innerText = hello;
+}
