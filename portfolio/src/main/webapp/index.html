@@ -12,11 +12,14 @@
   <body onload="getHelloResponse()">
     <div id="content">
       <h1>Prashant's Portfolio</h1>
-      <div id="hello-container"><h1></h1></div>
       <p>Welcome to my portfolio!</p>
       <img src="/images/profile.jpg" width=600px height=400px>
       <p>My name is Prashant; I just finished my sophomore year at UC Berkeley, and
           I'm a Google STEP intern for Summer 2020!</p>
+
+        <button onclick="getMessages()">See Messages!</button>
+        <ul id="messages-container"></ul>
+
       <p>Click here to get a random fact about me:</p>
       <button onclick="addRandomFact()">Hey!</button>
       <div id="greeting-container"></div>
