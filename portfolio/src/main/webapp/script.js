@@ -28,11 +28,21 @@ function addRandomFact() {
 }
 
 /*
- * Fetch the Hello greeting from the server and add it to page.
+ * Fetch the JSON string, parse it, and add to the DOM.
 */
-async function getHelloResponse() {
+async function getMessages() {
   const response = await fetch('/data');
-  const hello = await response.text();
-  console.log(hello)
-  document.getElementById('hello-container').innerText = hello;
+  const messages = await response.json();
+  const messagesElementDOM = document.getElementById('messages-container');
+  messagesElementDOM.innerHTML = '';
+  for (var i = 0; i < messages.length; i++) {
+      messagesElementDOM.appendChild(createListElement(messages[i]));
+  }
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
