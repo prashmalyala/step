@@ -28,21 +28,29 @@ function addRandomFact() {
 }
 
 /*
- * Fetch the JSON string, parse it, and add to the DOM.
+ * Fetch the JSON string of comments, parse it, and add it to the DOM.
 */
-async function getMessages() {
+async function getComments() {
   const response = await fetch('/data');
-  const messages = await response.json();
-  const messagesElementDOM = document.getElementById('messages-container');
-  messagesElementDOM.innerHTML = '';
-  for (var i = 0; i < messages.length; i++) {
-      messagesElementDOM.appendChild(createListElement(messages[i]));
+  const allComments = await response.json();
+  const commentsListDOM = document.getElementById('comments-container');
+  commentsListDOM.innerHTML = '';
+  for (var i = 0; i < allComments.length; i++) {
+      commentsListDOM.appendChild(createListElement(allComments[i]));
+  }
+  if (allComments.length == 0) {
+      commentsListDOM.innerHTML = 'No comments available yet.';
   }
 }
 
-/** Creates an <li> element containing text. */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+/** Creates a <li> element with commenter name and their comment as a sublist. */
+function createListElement(comment) {
+  const nameEl = document.createElement('li');
+  const commentContainer = document.createElement('ul');
+  const commentEl = document.createElement('li');
+  nameEl.innerText = comment.name;
+  commentEl.innerText = comment.message;
+  commentContainer.appendChild(commentEl);
+  nameEl.appendChild(commentContainer);
+  return nameEl;
 }

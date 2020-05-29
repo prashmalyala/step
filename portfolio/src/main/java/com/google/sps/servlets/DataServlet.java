@@ -26,16 +26,47 @@ import java.util.*;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  ArrayList<Comment> comments = new ArrayList<>();
+
+  private class Comment {
+      String name;
+      String message;
+
+      public Comment(String name, String message) {
+          this.name = name;
+          this.message = message;
+      }
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> myMessages = new ArrayList<>();
-    myMessages.add("Woohoo!");
-    myMessages.add("Yippee!");
-    myMessages.add("Hurray!");
     Gson gson = new Gson();
-    String json = gson.toJson(myMessages);
+    String json = gson.toJson(comments);
     // Set response to the JSON string
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      // Get form input
+      String name = getParameter(request, "name-input", "");
+      String message = getParameter(request, "comment-input", "");
+      Comment comment = new Comment(name, message);
+      comments.add(comment);
+      // Redirect to the home page (index.html)
+      response.sendRedirect("/");
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
