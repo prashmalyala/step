@@ -43,7 +43,7 @@ async function getComments() {
   }
 }
 
-/** Creates a <li> element with commenter name and their comment as a sublist. */
+/** Creates a <li> element with commenter name and their comment text as a sublist. */
 function createListElement(comment) {
   const nameEl = document.createElement('li');
   const commentContainer = document.createElement('ul');
