@@ -43,14 +43,14 @@ async function getComments() {
   }
 }
 
-/** Creates a <li> element with writer name and their comment as a sublist. */
+/** Creates a <li> element with commenter name and their comment as a sublist. */
 function createListElement(comment) {
-  const writerEl = document.createElement('li');
-  const messageContainer = document.createElement('ul');
-  const messageEl = document.createElement('li');
-  writerEl.innerText = comment.name;
-  messageEl.innerText = comment.message;
-  messageContainer.appendChild(messageEl);
-  writerEl.appendChild(messageContainer);
-  return writerEl;
+  const nameEl = document.createElement('li');
+  const commentContainer = document.createElement('ul');
+  const commentEl = document.createElement('li');
+  nameEl.innerText = comment.name;
+  commentEl.innerText = comment.message;
+  commentContainer.appendChild(commentEl);
+  nameEl.appendChild(commentContainer);
+  return nameEl;
 }
