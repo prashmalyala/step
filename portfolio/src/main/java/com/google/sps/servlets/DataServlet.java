@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,6 +44,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
+    // need to fix the load below
     String json = gson.toJson(comments);
     // Set response to the JSON string
     response.setContentType("application/json;");
@@ -52,8 +56,18 @@ public class DataServlet extends HttpServlet {
       // Get form input
       String name = getParameter(request, "name-input", "");
       String message = getParameter(request, "comment-input", "");
-      Comment comment = new Comment(name, message);
-      comments.add(comment);
+      // Comment comment = new Comment(name, message);
+
+
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("name", name);
+      commentEntity.setProperty("message", message);
+
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
+
+      // comments.add(comment);
+
       // Redirect to the home page (index.html)
       response.sendRedirect("/");
   }
