@@ -34,21 +34,23 @@
 
         <p>Go see some photos of me <a href="gallery.html">here</a>.</p>
 
-        <h3>Comment section:</h3>
+        <h5>Comment section:</h5>
 
         <div class="comment-section">
             <ul id="comments-container"></ul>
             
-            <form onSubmit="displayNumComments()" method="GET">
+            <form onSubmit="displayNumComments();return false">
                 <label for="fname">How many comments would you like to see?</label><br>
                 <input type="number" step="1" id="comment-number"><br>
                 <input type="submit" />
                 <br>
-            </form>
+            </form><br/>
+
+            <button onClick="deleteAllComments()">Delete all comments</button><br/><br/><br/>
 
             <form action="/data" method="POST">
 
-                <p><strong>Contact me!</strong></p>
+                <h5>Contact me!</h5>
                 <p>What's your name?</p>
                 <textarea name="name-input" placeholder="Your name here"></textarea>
                 <br/><br/>

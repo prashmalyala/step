@@ -35,7 +35,6 @@ async function getComments(numComments) {
   const chosenComments = await response.json();
   const commentsListDOM = document.getElementById('comments-container');
   commentsListDOM.innerHTML = '';
-  console.log(chosenComments.length);
   for (var i = 0; i < chosenComments.length; i++) {
       commentsListDOM.appendChild(createListElement(chosenComments[i]));
   }
@@ -52,6 +51,14 @@ function displayNumComments() {
     const numDisplay = document.getElementById("comment-number").value;
     console.log(numDisplay);
     getComments(numDisplay);
+}
+
+async function deleteAllComments() {
+    const response = await fetch('/delete-data', {method: 'POST'});
+    const emptyJson = await response.json();
+    if (response.status == 200) {
+        getComments(0);
+    }
 }
 
 /** Creates a <li> element with commenter name and their comment text as a sublist. */
