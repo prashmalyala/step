@@ -12,6 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/*
+ * Initializes the page by loading all comments and the map.
+*/
+function initPage() {
+    getComments(0);
+    initMap();
+}
+
+/*
+ * Creates a map and adds it to the page.
+*/
+function initMap() {
+    console.log('i am trying to load the map.');
+	const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.406, lng: -122.021}, zoom: 16});
+}
+
 /**
  * Adds a random greeting to the page.
  */
@@ -53,6 +71,9 @@ function displayNumComments() {
     getComments(numDisplay);
 }
 
+/*
+ * Deletes all comments on the page.
+*/
 async function deleteAllComments() {
     const response = await fetch('/delete-data', {method: 'POST'});
     const emptyJson = await response.json();

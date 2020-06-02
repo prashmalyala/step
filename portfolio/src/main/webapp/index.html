@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL-ewpdjx_mCZZHelJd2hCJvL_b9Y6hws"></script>
   </head>
 
-  <body onload="getComments(0)">
+  <body onload="initPage();">
     <div id="content">
       <h1>Prashant's Portfolio</h1>
       <p>Welcome to my portfolio!</p>
@@ -32,7 +33,11 @@
         <p>Lastly, if you want to stay in touch, feel free to add me on 
             <a href="https://www.linkedin.com/in/pshant" target="_blank">LinkedIn</a>.</p>
 
-        <p>Go see some photos of me <a href="gallery.html">here</a>.</p>
+        <p>Go see some photos of me <a href="gallery.html">here</a>.</p><br/>
+
+        <h6>Check out the office that I would've been working at this summer:</h6>
+        <div id="map"></div>
+        <br/>
 
         <h5>Comment section:</h5>
 
@@ -40,10 +45,10 @@
             <ul id="comments-container"></ul>
             
             <form onSubmit="displayNumComments();return false">
-                <label for="fname">How many comments would you like to see?</label><br>
-                <input type="number" step="1" id="comment-number"><br>
+                <label for="fname">How many comments would you like to see?</label><br/>
+                <input type="number" step="1" id="comment-number"><br/>
                 <input type="submit" />
-                <br>
+                <br/>
             </form><br/>
 
             <button onClick="deleteAllComments()">Delete all comments</button><br/><br/><br/>
