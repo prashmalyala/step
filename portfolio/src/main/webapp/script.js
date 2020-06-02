@@ -30,17 +30,35 @@ function addRandomFact() {
 /*
  * Fetch the JSON string of comments, parse it, and add it to the DOM.
 */
-async function getComments() {
-  const response = await fetch('/data');
-  const allComments = await response.json();
+async function getComments(numComments) {
+  const response = await fetch('/data?numComments=' + numComments);
+  const chosenComments = await response.json();
   const commentsListDOM = document.getElementById('comments-container');
   commentsListDOM.innerHTML = '';
-  for (var i = 0; i < allComments.length; i++) {
-      commentsListDOM.appendChild(createListElement(allComments[i]));
+  for (var i = 0; i < chosenComments.length; i++) {
+      commentsListDOM.appendChild(createListElement(chosenComments[i]));
   }
-  if (allComments.length == 0) {
-      commentsListDOM.innerHTML = 'No comments available yet.';
+  if (chosenComments.length == 0) {
+      commentsListDOM.innerHTML = 'No comments displayed.';
   }
+}
+
+/*
+ * Retrieves user input for number of comments they want displayed.
+*/
+function displayNumComments() {
+    // fetch the data from the HTML form
+    const numDisplay = document.getElementById("comment-number").value;
+    console.log(numDisplay);
+    getComments(numDisplay);
+}
+
+async function deleteAllComments() {
+    const response = await fetch('/delete-data', {method: 'POST'});
+    const emptyJson = await response.json();
+    if (response.status == 200) {
+        getComments(0);
+    }
 }
 
 /** Creates a <li> element with commenter name and their comment text as a sublist. */
