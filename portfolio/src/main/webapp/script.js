@@ -24,10 +24,117 @@ function initPage() {
  * Creates a map and adds it to the page.
 */
 function initMap() {
-    console.log('i am trying to load the map.');
 	const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: 37.406, lng: -122.021}, zoom: 16});
+      {center: {lat: 37.406, lng: -122.021}, zoom: 18, mapTypeId: 'satellite',
+      styles: [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#2f3948'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ]
+      });
+      map.setTilt(45);
+      var pikachuImage = {
+          url: '/images/pikachu.png',
+          scaledSize: new google.maps.Size(68, 60.54),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 0)
+      }
+      pikachuMarker = new google.maps.Marker({
+    	map: map,
+        icon: pikachuImage,
+    	draggable: true,
+    	animation: google.maps.Animation.DROP,
+    	position: {lat: 37.406, lng: -122.021},
+        title: 'Welcome to Moffett Place!'
+  	  });
+  	  pikachuMarker.addListener('click', toggleBounce);
+}
+
+/*
+ * Clicking on the marker results in a bounce animation.
+*/
+function toggleBounce() {
+  if (pikachuMarker.getAnimation() !== null) {
+    pikachuMarker.setAnimation(null);
+  } else {
+    pikachuMarker.setAnimation(google.maps.Animation.BOUNCE);
+  }
 }
 
 /**
@@ -67,7 +174,6 @@ async function getComments(numComments) {
 function displayNumComments() {
     // fetch the data from the HTML form
     const numDisplay = document.getElementById("comment-number").value;
-    console.log(numDisplay);
     getComments(numDisplay);
 }
 
