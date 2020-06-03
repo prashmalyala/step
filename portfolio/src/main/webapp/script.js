@@ -21,7 +21,7 @@ function initPage() {
 }
 
 /*
- * Creates a map and adds it to the page.
+ * Creates a stylized map with landmarks and adds it to the page.
 */
 function initMap() {
 	const map = new google.maps.Map(
@@ -108,33 +108,72 @@ function initMap() {
             }
           ]
       });
+      // Allows viewer to see an angled view of buildings in close view.
       map.setTilt(45);
+      // Adding all images and setting their marker sizes.
       var pikachuImage = {
           url: '/images/pikachu.png',
           scaledSize: new google.maps.Size(68, 60.54),
           origin: new google.maps.Point(0, 0),
           anchor: new google.maps.Point(0, 0)
       }
-      pikachuMarker = new google.maps.Marker({
-    	map: map,
-        icon: pikachuImage,
-    	draggable: true,
-    	animation: google.maps.Animation.DROP,
-    	position: {lat: 37.406, lng: -122.021},
-        title: 'Welcome to Moffett Place!'
-  	  });
-  	  pikachuMarker.addListener('click', toggleBounce);
+      var charmanderImage = {
+          url: '/images/charmander.png',
+          scaledSize: new google.maps.Size(53.2, 60),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 0)
+      }
+      var eeveeImage = {
+          url: '/images/eevee.png',
+          scaledSize: new google.maps.Size(60, 60),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 0)
+      }
+      var squirtleImage = {
+          url: '/images/squirtle.png',
+          scaledSize: new google.maps.Size(60, 60),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 0)
+      }
+      var bulbasaurImage = {
+          url: '/images/bulbasaur.png',
+          scaledSize: new google.maps.Size(102.22, 58.11),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 0)
+      }
+
+	  // Assigning all image markers an info window and position on the map.
+      addLandmark(
+          map, 37.406, -122.021, 'Google Sunnyvale Campus',
+          'Welcome to Google Sunnyvale!', pikachuImage
+      );
+      addLandmark(
+          map, 37.266608, -122.029627, 'Saratoga High School',
+          'Welcome to Saratoga High!', charmanderImage
+      );
+      addLandmark(
+          map, 42.335693, -71.071548, 'Boston University',
+          'Welcome to the Boston University Medical Campus!', bulbasaurImage
+      );
+      addLandmark(
+          map, 37.382739, -121.969296, 'Netskope',
+          'Welcome to Netskope!', eeveeImage
+      );
+      addLandmark(
+          map, 37.871958, -122.258583, 'UC Berkeley',
+          'Welcome to Cal Berkeley!', squirtleImage
+      );
 }
 
-/*
- * Clicking on the marker results in a bounce animation.
-*/
-function toggleBounce() {
-  if (pikachuMarker.getAnimation() !== null) {
-    pikachuMarker.setAnimation(null);
-  } else {
-    pikachuMarker.setAnimation(google.maps.Animation.BOUNCE);
-  }
+/** Adds a marker that shows an info window when clicked. */
+function addLandmark(map, lat, lng, title, description, icon) {
+  const marker = new google.maps.Marker(
+      {position: {lat: lat, lng: lng}, map: map, title: title, icon: icon,
+      animation: google.maps.Animation.DROP});
+  const infoWindow = new google.maps.InfoWindow({content: description});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
 }
 
 /**
