@@ -21,12 +21,12 @@ public final class FindMeetingQuery {
 
       long meetingDuration = request.getDuration(); // duration of the meeting in minutes
 
-      // duration exceeds a day, hence not possible
+      // duration exceeding a day is not possible
       if (meetingDuration > TimeRange.WHOLE_DAY.duration()) {
           return Arrays.asList();
       }
 
-      // no events, hence no conflicts
+      // no events implies no conflicts
       if (events.isEmpty()) {
           return Arrays.asList(TimeRange.WHOLE_DAY);
       }
@@ -34,13 +34,13 @@ public final class FindMeetingQuery {
       Collection<String> meetAttendees = request.getAttendees(); // those needed at meeting
       Collection<String> optionalAttendees = request.getOptionalAttendees(); // those optional at meeting
 
-      Set<TimeRange> busyTimes = new HashSet<>(); // mandatory attendee event times (includes overlaps)
+      Set<TimeRange> busyTimes = new HashSet<>(); // mandatory attendee event times
       Set<TimeRange> busyOptionalTimes = new HashSet<>(); // mandatory + optional attendee event times
 
-      Collection<TimeRange> availableTimes = new ArrayList<>(); // meeting times for mandatory attendees
-      Collection<TimeRange> availableTimesOptional = new ArrayList<>(); // meeting times, optionals included
+      Collection<TimeRange> availableTimes = new ArrayList<>(); // available times for mandatory attendees
+      Collection<TimeRange> availableTimesOptional = new ArrayList<>(); // available times, optionals included
 
-      // compiles a list of mandatory attendee busy times and a list of mandatory + optional busy times
+      // compiles a list of mandatory attendee busy times AND a list of mandatory + optional busy times
       for (Event event : events) {
           Set<String> eventAttendees = event.getAttendees();
           TimeRange eventSpan = event.getWhen();
@@ -65,12 +65,6 @@ public final class FindMeetingQuery {
       sortedBusyOptionalTimes.addAll(busyOptionalTimes);
       Collections.sort(sortedBusyOptionalTimes, TimeRange.ORDER_BY_START);
 
-      /* // returned: <[Range: [0, 1440), Range: [480, 510), Range: [540, 570)]>
-      if (availableTimesOptional.size() == 0) {
-          return sortedBusyOptionalTimes;
-      }
-      */
-
       // possible that no meet attendees are busy
       if (busyTimesSorted.size() == 0) {
           // possible that no optional attendees are busy
@@ -82,25 +76,15 @@ public final class FindMeetingQuery {
           return availableTimesOptional;
       }
       else {
-
-          /* // returned: <[Range: [0, 1440), Range: [480, 510), Range: [540, 570)]>
-          if (availableTimesOptional.size() == 0) {
-            return sortedBusyOptionalTimes;
-        }
-        */
-
-          // we first want to try getting everyone to attend the meeting
+          // first try mandatory + optional both attending the meeting
           helper(sortedBusyOptionalTimes, meetingDuration, availableTimesOptional);
 
-
-          //ENTERING THIS WHEN WE SHOULD NOT BE
-          // if we have a time for everyone, return
+          // if we have time(s) for both, return them
           if (availableTimesOptional.size() != 0) {
               return availableTimesOptional;
           }
 
-
-          // otherwise, we must look at only mandatory attendees
+          // otherwise, only look at mandatory attendees
           helper(busyTimesSorted, meetingDuration, availableTimes);
 
           return availableTimes;
