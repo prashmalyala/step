@@ -1,5 +1,6 @@
-# Google Summer 2020
-## STEP (Student Training in Engineering Program) Internship
+# Google STEP
+## Student Training in Engineering Program Internship
+### Summer 2020
 
 This repo contains Prashant's portfolio and STEP projects from his 2020 Summer internship at Google.
 
