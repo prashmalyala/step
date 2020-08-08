@@ -83,8 +83,8 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       // Get form input
-      String name = getParameter(request, "name-input", "");
-      String message = getParameter(request, "comment-input", "");
+      String name = getParameter(request, "name-input", "0");
+      String message = getParameter(request, "comment-input", "0");
       long timestamp = System.currentTimeMillis();
 
       Entity commentEntity = new Entity("Comment");
